@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encrypted Messaging App</title>
+</head>
+<body>
+    <h2>Encrypted Messaging App</h2>
+    <input type="text" id="message" placeholder="Type your message">
+    <button onclick="sendMessage()">Send</button>
+    <div id="chat"></div>
+
+    <script>
+        var socket = new WebSocket("ws://localhost:8080/ws/chat");
+
+        socket.onopen = function() {
+            console.log("Connected to WebSocket server");
+        };
+
+        socket.onmessage = function(event) {
+            let decryptedMessage = decryptMessage(event.data);
+            document.getElementById('chat').innerHTML += "<p>" + decryptedMessage + "</p>";
+        };
+
+        function sendMessage() {
+            let message = document.getElementById('message').value;
+            let encryptedMessage = encryptMessage(message);
+            socket.send(encryptedMessage);
+        }
+
+        function encryptMessage(message) {
+            // Encrypt the message here using AES before sending (client-side)
+            return message;  // Placeholder for actual encryption logic
+        }
+
+        function decryptMessage(encryptedMessage) {
+            // Decrypt the message here using AES
+            return encryptedMessage;  // Placeholder for actual decryption logic
+        }
+    </script>
+</body>
+</html>
